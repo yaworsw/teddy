@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+spark compile teddy --saveTo firmware.bin
