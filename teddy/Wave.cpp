@@ -11,10 +11,10 @@ int Wave::trigger() {
   switch(this->frame++) {
     case 0:
       this->servo.write(this->start);
-      return this->speed;
+      return this->speed * 1000;
     case 1:
       this->servo.write(this->end);
-      return this->speed;
+      return this->speed * 1000;
     default:
       this->servo.write(this->start);
       this->frame = 0;

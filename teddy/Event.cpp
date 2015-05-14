@@ -1,16 +1,15 @@
 #include "application.h"
 
-#include <climits>
-#include <unistd.h>
-
 #include "Event.h"
+
+#define MAX_SLEEP 10000000
 
 Event::Event(std::vector<Action*> actions) {
   this->actions = actions;
   this->size    = actions.size();
 };
 
-int Event::trigger() {
+void Event::trigger() {
   int sleeps [this->size];
   std::fill(sleeps, sleeps + sizeof(sleeps), 0);
 
@@ -21,7 +20,7 @@ int Event::trigger() {
       }
     }
 
-    int sleep = INT_MAX;
+    int sleep = MAX_SLEEP;
     for (int i = 0; i < this->size; i++) {
       int cur = sleeps[i];
       if (cur >= 0 && sleep > cur) {
@@ -29,13 +28,18 @@ int Event::trigger() {
       }
     }
 
-    if (sleep != INT_MAX) {
+    if (sleep < MAX_SLEEP) {
       for (int i = 0; i < this->size; i++) {
-        sleeps[i] = sleeps[i] - sleep;
+        if (sleeps[i] >= sleep) {
+          sleeps[i] = sleeps[i] - sleep;
+        }
       }
-      delay(sleep);
+      Serial.print("Sleeping for ");
+      Serial.print(sleep);
+      Serial.println("μs");
+      delayMicroseconds(sleep);
     } else {
-      return 0;
+      return;
     }
   };
 };

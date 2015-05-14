@@ -11,4 +11,5 @@ class BlinkEye: public Action {
     int pin;
     int speed;
     int times;
+    int frame = 0;
 };

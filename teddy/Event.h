@@ -8,7 +8,7 @@
 class Event {
   public:
     Event(std::vector<Action*>);
-    int trigger();
+    void trigger();
   protected:
     int size;
     std::vector<Action*> actions;
